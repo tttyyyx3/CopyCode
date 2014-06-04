@@ -30,3 +30,34 @@ return TRUE;
 };
 
 
+
+
+	*syj_find 遍历数据库函数
+*/
+static void ArxProject2syj_find(void)
+{
+// Add your code for command ArxProject2.syj_find here
+//打开数据库并迭代遍历其中的实体.
+AcDbObjectId objId;
+AcDbDatabase * pDb = acdbHostApplicationServices()->workingDatabase();
+AcDbBlockTable *pBlockTable =NULL;
+pDb->getBlockTable(pBlockTable, AcDb::kForRead);
+AcDbBlockTableRecord *pBlockTableRecord =NULL;
+pBlockTable->getAt(ACDB_MODEL_SPACE,pBlockTableRecord, AcDb:: kForRead);
+pBlockTable->close();
+//迭代器
+AcDbBlockTableRecordIterator *pIter = NULL;
+pBlockTableRecord->newIterator(pIter); // Create an iterator
+for (pIter->start(); !pIter->done(); pIter->step())
+{
+
+AcDbEntity *pEntity = NULL;
+if (pIter->getEntity(pEntity, AcDb::kForRead) != Acad::eOk)
+continue;
+if(pEntity->isKindOf(AcDbCircle::desc()))
+objId = pEntity->objectId();
+}
+pBlockTableRecord->close();
+}
+
+
