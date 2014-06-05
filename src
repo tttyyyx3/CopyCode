@@ -78,3 +78,36 @@ SetDlgItemText(IDC_EDITFILEPATH,strExePath);
 
 SetDlgItemText(IDC_EDITRUNDIR,strExePath.Left(strExePath.ReverseFind('\\')+1));
 
+
+
+
+进程快照
+
+
+	HANDLE hToolhelp = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
+if (hToolhelp == INVALID_HANDLE_VALUE)
+{
+this->MessageBox(_T("获取进程快照失败"));
+return	TRUE;
+}
+PROCESSENTRY32	stProcess = {0};
+stProcess.dwSize = sizeof(PROCESSENTRY32);
+Process32First(hToolhelp, &stProcess);
+for (int i=0;Process32Next(hToolhelp, &stProcess);i++)
+{
+TCHAR	pszPid[10];
+_itot_s(stProcess.th32ProcessID, pszPid,10);
+//m_ListProcess.SetItemText(i,0,pszPid);
+m_ListProcess.InsertItem(i, pszPid, NULL);
+m_ListProcess.SetItemText(i,1,stProcess.szExeFile);
+HANDLE	hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, stProcess.th32ProcessID);
+TCHAR	pszProcessPath[MAX_PATH+2];
+if (GetModuleFileNameEx(hProcess, NULL, pszProcessPath, MAX_PATH+2))
+{
+m_ListProcess.SetItemText(i, 2, pszProcessPath);
+}
+CloseHandle(hProcess);
+}
+CloseHandle(hToolhelp);
+
+HANDLE hProcess=GetCurrentProcess();
