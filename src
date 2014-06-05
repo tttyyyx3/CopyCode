@@ -61,3 +61,8 @@ pBlockTableRecord->close();
 }
 
 
+
+	GetDlgItemText(IDC_EDITPARAM,m_strParam);
+GetDlgItemText(IDC_EDITRUNDIR,m_strRunDir);
+
+
