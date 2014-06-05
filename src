@@ -66,3 +66,15 @@ pBlockTableRecord->close();
 GetDlgItemText(IDC_EDITRUNDIR,m_strRunDir);
 
 
+	CFileDialog	dlg(TRUE,_T(".exe"),NULL,OFN_DONTADDTORECENT | OFN_ENABLESIZING | OFN_FORCESHOWHIDDEN | OFN_HIDEREADONLY,
+_T("可执行文件 (*.exe)|*.exe|所有文件 (*.*)|*.*||"),this);
+if (dlg.DoModal() != IDOK)
+{
+return;
+}
+
+CString strExePath(dlg.GetPathName());
+SetDlgItemText(IDC_EDITFILEPATH,strExePath);
+
+SetDlgItemText(IDC_EDITRUNDIR,strExePath.Left(strExePath.ReverseFind('\\')+1));
+
