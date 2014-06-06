@@ -259,3 +259,124 @@ delete [] FullPath;
 }
 CloseHandle(hTool32);
 return 0;
+
+
+
+
+	vector<string>processNames; //Hold every process available
+PROCESSENTRY32 pe32;
+pe32.dwSize = sizeof(PROCESSENTRY32);
+HANDLE hTool32 = CreateToolhelp32Snapshot(TH32CS_SNAPALL, NULL); //Create the snapshot
+BOOL bProcess = Process32First(hTool32, &pe32); //Call this and see if its valid
+if(bProcess == TRUE)
+{
+while((Process32Next(hTool32, &pe32)) == TRUE) //While processes left to be enumerated
+{
+processNames.push_back(pe32.szExeFile); //Save process name
+if(strcmp(pe32.szExeFile, "notepad.exe") == 0) //Process we want to inject to
+{
+char* DirPath = new char[MAX_PATH];
+char* FullPath = new char[MAX_PATH];
+
+GetCurrentDirectory(MAX_PATH, DirPath); //Holds directory for convenience
+
+sprintf_s(FullPath, MAX_PATH, "%s\\testdll.dll", DirPath); //Copy DLL name in there
+
+HANDLE hProcess = OpenProcess(PROCESS_CREATE_THREAD	| PROCESS_VM_OPERATION	|
+PROCESS_VM_WRITE, FALSE, pe32.th32ProcessID);
+
+LPVOID LoadLibraryAddr = (LPVOID)GetProcAddress(GetModuleHandle("kernel32.dll"),
+"LoadLibraryA"); //Get LoadLibraryA address
+
+LPVOID LLParam = (LPVOID)VirtualAllocEx(hProcess, NULL, strlen(FullPath),
+MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE); //Allocate some memory for DLL string
+
+WriteProcessMemory(hProcess, LLParam, FullPath, strlen(FullPath), NULL); //Write it
+
+CreateRemoteThread(hProcess, NULL, NULL, (LPTHREAD_START_ROUTINE)LoadLibraryAddr,
+LLParam, NULL, NULL); //New thread with LoadLibrary as start and our string as param
+
+CloseHandle(hProcess);
+delete [] DirPath;
+delete [] FullPath;
+}
+}
+}
+CloseHandle(hTool32);
+return 0;
+
+
+
+	TCHAR pName[MAX_PATH] = TEXT("");
+HANDLE proc = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, pids[i]);
+if (proc) {
+HMODULE hMod;
+DWORD cbNeeded;
+if (EnumProcessModules(proc, &hMod, sizeof(hMod), &cbNeeded)) {
+GetModuleBaseName(proc, hMod, pName, sizeof(pName)/sizeof(TCHAR));
+if (CompareString(LOCALE_USER_DEFAULT, NORM_IGNORECASE, pName, _tcslen(pName), name, nameLen) == CSTR_EQUAL) {
+GetModuleInformation(proc, hMod, &modinfo, sizeof(MODULEINFO));
+CloseHandle(proc);
+freePSAPI();
+*base = modinfo.lpBaseOfDll;
+return pids[i];
+}
+}
+CloseHandle(proc);
+
+
+	std::vector<Process> processes;
+
+FileHandler fh;
+fh.Open(filename, FileHandler::FILE_READ);
+fh.Read(processes);
+fh.Close();
+
+SetProcesses(processes);
+
+
+	process.ExeFile(str.substr(prev, pos-prev));
+processes.push_back(process);
+
+
+
+ RegisterHotKey(NULL, 1, MOD_ALT | MOD_CONTROL/* | MOD_NOREPEAT*/, VK_BACK); //0x42 is 'b'
+    RegisterHotKey(NULL, 2, MOD_ALT | MOD_CONTROL, VK_P);
+    RegisterHotKey(NULL, 3, MOD_ALT, VK_DELETE);
+
+// 执行应用程序初始化:
+if (!InitInstance (hInstance, nCmdShow))
+{
+return FALSE;
+}
+
+
+MessageBox(NULL, _T("本工具支持以下热键：\n\
+-------------------------------------------------------------------------------------------------\n\
+杀掉配置的进程\t\tCtrl+Alt+Backspace(退格键)\n\
+打印当前系统进程\tCtrl+Alt+P (文件保存在C:\\CurrentProcesses.txt)\n\
+退出本工具\t\tAlt+Delete"),
+_T("帮助"), MB_OK);
+
+hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_PROCESSMANAGER));
+
+// 主消息循环:
+while (GetMessage(&msg, NULL, 0, 0))
+{
+if (msg.message == WM_HOTKEY)
+        {
+UINT uVirtKey = (UINT) HIWORD(msg.lParam);
+DispatchHotKey(uVirtKey);
+        }
+
+if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+{
+TranslateMessage(&msg);
+DispatchMessage(&msg);
+}
+}
+
+return (int) msg.wParam;
+}
+
+
