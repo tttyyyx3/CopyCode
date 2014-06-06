@@ -182,3 +182,36 @@ printf("File successfully opened/created.");
 }
 CloseHandle(hFile);
 getchar();
+
+
+
+
+HINSTANCE hinstDLL = ::LoadLibrary(L"E:\\TestCode\\xproj\\xLearn\\Debug\\xHook.dll");
+
+    SetHook(::GetCurrentThreadId());
+
+
+    HOOKPROC fnMouseProc = (HOOKPROC)GetProcAddress(hinstDLL, "_MouseHookProc@12");
+    ::SetWindowsHookEx(WH_MOUSE, fnMouseProc, hinstDLL, 0);
+
+    //::SetWindowsHookEx(WH_MOUSE, fnMouseProc, ::GetModuleHandle(L"xHook.dll"), 0);
+
+    //cin.get();
+
+    MSG msg = {0};
+
+    int count = 0;
+
+    for (;;)
+    {
+        if (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+        {
+            if (msg.message == WM_USER + 1)
+            {
+                std::cout<<"mouse move "<<++count<<std::endl;
+            }
+            //::TranslateMessage(&msg);
+            //::DispatchMessage(&msg);
+        }
+    }
+
