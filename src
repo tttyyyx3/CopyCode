@@ -380,3 +380,20 @@ return (int) msg.wParam;
 }
 
 
+
+	_hSelf = ::CreateWindowEx(
+WS_EX_ACCEPTFILES | (_notepad_plus_plus_core._nativeLangSpeaker.isRTL()?WS_EX_LAYOUTRTL:0),\
+_className,\
+TEXT("Notepad++"),\
+WS_OVERLAPPEDWINDOW	| WS_CLIPCHILDREN,\
+// CreateWindowEx bug : set all 0 to walk around the pb
+0, 0, 0, 0,\
+_hParent,\
+NULL,\
+_hInst,\
+(LPVOID)this); // pass the ptr of this instantiated object
+                                   // for retrieve it in Notepad_plus_Proc from
+                                   // the CREATESTRUCT.lpCre
+                                   
+                                   
+            ::SendDlgItemMessage(_hSelf, IDC_MACRO_COMBO, CB_ADDSTRING, 0, (LPARAM)TEXT("Current recorded macro"));                       
