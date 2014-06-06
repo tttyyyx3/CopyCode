@@ -14,7 +14,7 @@ void CFindWindow::FindWin(HWND hwndParent, LPCSTR classname)
 {
 m_hWnd=NULL;
 m_classname=classname;
-**FindChildClassHwnd(hwndParent,LPARAM(this));**
+FindChildClassHwnd(hwndParent,LPARAM(this));
 }
 
 BOOL CALLBACK CFindWindow::FindChildClassHwnd(HWND hwndParent,LPARAM lParam)
