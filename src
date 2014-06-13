@@ -396,4 +396,7 @@ _hInst,\
                                    // the CREATESTRUCT.lpCre
                                    
                                    
-            ::SendDlgItemMessage(_hSelf, IDC_MACRO_COMBO, CB_ADDSTRING, 0, (LPARAM)TEXT("Current recorded macro"));                       
+            ::SendDlgItemMessage(_hSelf, IDC_MACRO_COMBO, CB_ADDSTRING, 0, (LPARAM)TEXT("Current recorded macro"));   
+            
+            
+            RegCreateKeyEx 
