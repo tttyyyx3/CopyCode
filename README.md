@@ -7,3 +7,5 @@ PathCchRemoveFileSpec
    SHEmptyRecycleBin       
    SHQueryRecycleBin      
    EnterCriticalSection     GetModuleHandleEx  GetModuleHandleEx    
+    
+    findfirstvolume
