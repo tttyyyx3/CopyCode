@@ -8,4 +8,4 @@ PathCchRemoveFileSpec
    SHQueryRecycleBin      
    EnterCriticalSection     GetModuleHandleEx  GetModuleHandleEx    
     
-    findfirstvolume    GetLogicalDriverString   
+    findfirstvolume    GetLogicalDriverString     DoDataExchange
