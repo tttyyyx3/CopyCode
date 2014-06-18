@@ -9,4 +9,4 @@ PathCchRemoveFileSpec
    EnterCriticalSection     GetModuleHandleEx  GetModuleHandleEx    
     
     findfirstvolume    GetLogicalDriverString     DoDataExchange   
-    SHGetFolderPath  SetupDiGetClassDevs  
+    SHGetFolderPath  SetupDiGetClassDevs    OSVERSIONINFO 
