@@ -9,4 +9,5 @@ PathCchRemoveFileSpec
    EnterCriticalSection     GetModuleHandleEx  GetModuleHandleEx    
     
     findfirstvolume    GetLogicalDriverString     DoDataExchange   
-    SHGetFolderPath  SetupDiGetClassDevs    OSVERSIONINFO 
+    SHGetFolderPath  SetupDiGetClassDevs    OSVERSIONINFO   WINVERSION_WIN7  VerQueryValueW  GetCurrentDirectory  
+    GetModuleFileName 
