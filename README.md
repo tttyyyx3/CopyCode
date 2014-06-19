@@ -12,6 +12,6 @@ PathCchRemoveFileSpec
     SHGetFolderPath  SetupDiGetClassDevs    OSVERSIONINFO   WINVERSION_WIN7  VerQueryValueW  GetCurrentDirectory  
     GetModuleFileName   GetCurrentProcess    SetProcessWorkingSetSize 
     SetTimer   getcurrentprocess   RegisterHotKey    GetSafeHwnd   OpenProcessToken  GetAsyncKeyState   
-    CreateFile    CreateThread
+    CreateFile    CreateThread   IcmpSendEcho 
  
  
