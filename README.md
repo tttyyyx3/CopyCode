@@ -1,5 +1,5 @@
 CopyCode
-========
+====================================================
 SetCurrentDirectory
 GetCurrentDirectory
 ::GetModuleFileName
